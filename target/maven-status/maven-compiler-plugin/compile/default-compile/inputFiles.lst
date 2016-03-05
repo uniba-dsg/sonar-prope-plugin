@@ -1,0 +1,10 @@
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\ui\PortabilityDashboard.java
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\batch\PortabilityDecorator.java
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\rules\PortabilityRulesDefinition.java
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\utility\DecoratorUtility.java
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\batch\PortabilitySensor.java
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\checks\CheckRepository.java
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\PortabilityPlugin.java
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\language\Bpel.java
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\rules\BpelSonarWayProfile.java
+D:\git\portability-plugin-überarbeitet\sonar-portability-plugin\src\main\java\de\uniba\dsg\sonar\portability\PortabilityMetrics.java
