@@ -1,7 +1,5 @@
 package de.uniba.dsg.sonar.portability.rules;
 
-
-import java.util.LinkedList;
 import java.util.List;
 
 import org.sonar.api.server.rule.RulesDefinition;
