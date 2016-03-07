@@ -1,5 +1,7 @@
 # sonar-portability-plugin
 
+[![Build Status](https://travis-ci.org/uniba-dsg/sonar-prope-plugin.svg?branch=master)](https://travis-ci.org/uniba-dsg/sonar-prope-plugin)
+
 sonar-portability-plugin is a plugin to the [SonarQube](http://www.sonarqube.org/) code quality management platform that calculates portability metrics for BPEL 2.0 processes. It computes the metrics using the [prope](https://github.com/uniba-dsg/prope) metrics suite and presents them in a portability dashboard in the SonarQube server. It offers support for drilling down on file level and  highlighting issues in code with short issue description. 
 
 
