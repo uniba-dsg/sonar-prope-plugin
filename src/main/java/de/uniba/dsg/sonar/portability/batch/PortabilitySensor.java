@@ -24,80 +24,80 @@ import prope.reporting.ReportEntry;
 
 public class PortabilitySensor implements Sensor {
 
-	private static final Logger LOG = LoggerFactory.getLogger(PortabilitySensor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PortabilitySensor.class);
 
-	private FileSystem fileSystem;
-	private final ResourcePerspectives perspectives;
+    private FileSystem fileSystem;
+    private final ResourcePerspectives perspectives;
 
-	/**
-	 * Use of IoC to get ResourcePerspective and FileSystem
-	 */
-	public PortabilitySensor(FileSystem fileSystem,ResourcePerspectives perspectives) {
-		this.fileSystem = fileSystem;
-		this.perspectives = perspectives;
-	}
+    /**
+     * Use of IoC to get ResourcePerspective and FileSystem
+     */
+    public PortabilitySensor(FileSystem fileSystem, ResourcePerspectives perspectives) {
+        this.fileSystem = fileSystem;
+        this.perspectives = perspectives;
+    }
 
-	@Override
-	public boolean shouldExecuteOnProject(Project project) {
-		// This sensor is executed only when there are bpel files
-		return fileSystem.hasFiles(fileSystem.predicates().hasLanguage("bpel"));
-	}
+    @Override
+    public boolean shouldExecuteOnProject(Project project) {
+        // This sensor is executed only when there are bpel files
+        return fileSystem.hasFiles(fileSystem.predicates().hasLanguage("bpel"));
+    }
 
-	@Override
-	public void analyse(Project project, SensorContext sensorContext) {
-		LOG.info("Starting analyse of Project "+fileSystem.baseDir().getName());
-		for (InputFile inputFile : fileSystem.inputFiles(fileSystem.predicates().hasLanguage("bpel"))) {
-			
-			PortabilityAnalyzer analyzer = new PortabilityAnalyzer();
-			Path currentFilePath = Paths.get(inputFile.absolutePath());
-			List<ReportEntry> entries = analyzer.analyzeFile(currentFilePath);
+    @Override
+    public void analyse(Project project, SensorContext sensorContext) {
+        LOG.info("Starting analyse of Project " + fileSystem.baseDir().getName());
+        for (InputFile inputFile : fileSystem.inputFiles(fileSystem.predicates().hasLanguage("bpel"))) {
 
-			if(entries.size()>0){
-				for(ReportEntry currentEntry: entries){
-					for(String currentMetric: currentEntry.getVariableNames())
-						if(currentMetric.equals("class")){
-							sensorContext.saveMeasure(inputFile,
-									new Measure<String>(PortabilityMetrics.CLASSIFICATION, currentEntry.getVariableValue(currentMetric)));
-						}else if(currentMetric.equals("N")){
-							sensorContext.saveMeasure(inputFile,
-									new Measure<Integer>(PortabilityMetrics.N, (double) Integer.valueOf(currentEntry.getVariableValue(currentMetric))));
-						}else if(currentMetric.equals("Mb")){
-							sensorContext.saveMeasure(inputFile,
-									new Measure<Double>(PortabilityMetrics.MB, Double.valueOf(currentEntry.getVariableValue(currentMetric)),2));
-						}else if(currentMetric.equals("Me")){
-							sensorContext.saveMeasure(inputFile,
-									new Measure<Double>(PortabilityMetrics.ME, Double.valueOf(currentEntry.getVariableValue(currentMetric)),2));
-						}else if(currentMetric.equals("Ma")){
-							sensorContext.saveMeasure(inputFile,
-									new Measure<Double>(PortabilityMetrics.MA, Double.valueOf(currentEntry.getVariableValue(currentMetric)),2));
-						}else if(currentMetric.equals("Ms")){
-							sensorContext.saveMeasure(inputFile,
-									new Measure<Double>(PortabilityMetrics.MS, Double.valueOf(currentEntry.getVariableValue(currentMetric)),2));
-						}
-				}
-			}
-			
-			List<Warning> warnings = analyzer.getWarningsFromLastAnalysis();
-			if(warnings.size()>0){
-				Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				for(Warning warning:warnings){
-				    if (issuable != null) {
-				      // can be used
-				      Issue issue = issuable.newIssueBuilder()
-				    	.ruleKey(RuleKey.of("portability-issues", warning.getAssertion().getId()))
-				        .line(warning.getLine())
-				        .message(warning.getAssertion().getDiagnosticMessage())
-				        .build();
-				      issuable.addIssue(issue);
-				    }
-				}
-			}
-		}
-	}
+            PortabilityAnalyzer analyzer = new PortabilityAnalyzer();
+            Path currentFilePath = Paths.get(inputFile.absolutePath());
+            List<ReportEntry> entries = analyzer.analyzeFile(currentFilePath);
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName();
-	}
+            if (entries.size() > 0) {
+                for (ReportEntry currentEntry : entries) {
+                    for (String currentMetric : currentEntry.getVariableNames())
+                        if (currentMetric.equals("class")) {
+                            sensorContext.saveMeasure(inputFile,
+                                    new Measure<String>(PortabilityMetrics.CLASSIFICATION, currentEntry.getVariableValue(currentMetric)));
+                        } else if (currentMetric.equals("N")) {
+                            sensorContext.saveMeasure(inputFile,
+                                    new Measure<Integer>(PortabilityMetrics.N, (double) Integer.valueOf(currentEntry.getVariableValue(currentMetric))));
+                        } else if (currentMetric.equals("Mb")) {
+                            sensorContext.saveMeasure(inputFile,
+                                    new Measure<Double>(PortabilityMetrics.MB, Double.valueOf(currentEntry.getVariableValue(currentMetric)), 2));
+                        } else if (currentMetric.equals("Me")) {
+                            sensorContext.saveMeasure(inputFile,
+                                    new Measure<Double>(PortabilityMetrics.ME, Double.valueOf(currentEntry.getVariableValue(currentMetric)), 2));
+                        } else if (currentMetric.equals("Ma")) {
+                            sensorContext.saveMeasure(inputFile,
+                                    new Measure<Double>(PortabilityMetrics.MA, Double.valueOf(currentEntry.getVariableValue(currentMetric)), 2));
+                        } else if (currentMetric.equals("Ms")) {
+                            sensorContext.saveMeasure(inputFile,
+                                    new Measure<Double>(PortabilityMetrics.MS, Double.valueOf(currentEntry.getVariableValue(currentMetric)), 2));
+                        }
+                }
+            }
+
+            List<Warning> warnings = analyzer.getWarningsFromLastAnalysis();
+            if (warnings.size() > 0) {
+                Issuable issuable = perspectives.as(Issuable.class, inputFile);
+                for (Warning warning : warnings) {
+                    if (issuable != null) {
+                        // can be used
+                        Issue issue = issuable.newIssueBuilder()
+                                .ruleKey(RuleKey.of("portability-issues", warning.getAssertion().getId()))
+                                .line(warning.getLine())
+                                .message(warning.getAssertion().getDiagnosticMessage())
+                                .build();
+                        issuable.addIssue(issue);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 
 }

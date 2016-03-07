@@ -10,20 +10,20 @@ import de.uniba.dsg.sonar.portability.language.Bpel;
 
 public class BpelSonarWayProfile extends ProfileDefinition {
 
-	private final AnnotationProfileParser annotationProfileParser;
+    private final AnnotationProfileParser annotationProfileParser;
 
-	public BpelSonarWayProfile(AnnotationProfileParser annotationProfileParser) {
-		this.annotationProfileParser = annotationProfileParser;
-	}
+    public BpelSonarWayProfile(AnnotationProfileParser annotationProfileParser) {
+        this.annotationProfileParser = annotationProfileParser;
+    }
 
-	@Override
-	public RulesProfile createProfile(ValidationMessages validation) {
-		return annotationProfileParser.parse(
-				CheckRepository.REPOSITORY_KEY,
-				CheckRepository.SONAR_WAY_PROFILE_NAME,
-				Bpel.KEY,
-				CheckRepository.getCheckClasses(),
-				validation);
-	}
+    @Override
+    public RulesProfile createProfile(ValidationMessages validation) {
+        return annotationProfileParser.parse(
+                CheckRepository.REPOSITORY_KEY,
+                CheckRepository.SONAR_WAY_PROFILE_NAME,
+                Bpel.KEY,
+                CheckRepository.getCheckClasses(),
+                validation);
+    }
 
 }
