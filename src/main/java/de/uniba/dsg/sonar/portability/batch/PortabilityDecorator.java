@@ -15,16 +15,16 @@ import de.uniba.dsg.sonar.portability.utility.DecoratorUtility;
 
 public class PortabilityDecorator implements Decorator {
 
-    DecoratorUtility utility = new DecoratorUtility();
+    private DecoratorUtility utility = new DecoratorUtility();
 
-    int fileCount = 0;
+    private int fileCount = 0;
 
-    HashMap<Double, Integer> valueCountNumberOfElements = new HashMap<>();
-    HashMap<Double, Integer> valueCountBasicPortability = new HashMap<>();
-    HashMap<Double, Integer> valueCountWeightedPortability = new HashMap<>();
-    HashMap<Double, Integer> valueCountActivityPortability = new HashMap<>();
-    HashMap<Double, Integer> valueCountServiceCommunication = new HashMap<>();
-    HashMap<String, Integer> classificationCount = new HashMap<>();
+    private HashMap<Double, Integer> valueCountNumberOfElements = new HashMap<>();
+    private HashMap<Double, Integer> valueCountBasicPortability = new HashMap<>();
+    private HashMap<Double, Integer> valueCountWeightedPortability = new HashMap<>();
+    private HashMap<Double, Integer> valueCountActivityPortability = new HashMap<>();
+    private HashMap<Double, Integer> valueCountServiceCommunication = new HashMap<>();
+    private HashMap<String, Integer> classificationCount = new HashMap<>();
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
