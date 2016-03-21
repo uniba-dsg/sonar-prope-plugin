@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Sonar-prope-plugin by uniba-dsg</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Sonar-prope-plugin</h1>
+      <h2 class="project-tagline">A SonarQube plugin for computing portability metrics for BPEL processes</h2>
+      <a href="https://github.com/uniba-dsg/sonar-prope-plugin" class="btn">View on GitHub</a>
+      <a href="https://github.com/uniba-dsg/sonar-prope-plugin/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/uniba-dsg/sonar-prope-plugin/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="sonar-portability-plugin" class="anchor" href="#sonar-portability-plugin" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>sonar-portability-plugin</h1>
+
+<p><a href="https://travis-ci.org/uniba-dsg/sonar-prope-plugin"><img src="https://travis-ci.org/uniba-dsg/sonar-prope-plugin.svg?branch=master" alt="Build Status"></a></p>
+
+<p>sonar-portability-plugin is a plugin to the <a href="http://www.sonarqube.org/">SonarQube</a> code quality management platform that calculates portability metrics for BPEL 2.0 processes. It computes the metrics using the <a href="https://github.com/uniba-dsg/prope">prope</a> metrics suite and presents them in a portability dashboard in the SonarQube server. It offers support for drilling down on file level and  highlighting issues in code with short issue description. </p>
+
+<h2>
+<a id="software-requirements" class="anchor" href="#software-requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Software Requirements</h2>
+
+<ul>
+<li>JDK 1.8.X
+
+<ul>
+<li>
+<code>JAVA_HOME</code> should point to the jdk directory</li>
+<li>
+<code>PATH</code> should include <code>JAVA_HOME/bin</code>
+</li>
+</ul>
+</li>
+<li>apache maven 3.3.X</li>
+<li>sonarqube-5.X.X</li>
+<li>sonar-runner-dist-2.4 or other analyzer (ant, maven)</li>
+<li>sonarqube has its embedded H2 database, but it is not able to export or save data from there. If data should be able to export and make a backup of them it is recommended to install an other database like MySQL 5.x, Oracle 10g/11g, PostgreSQL 8.x/9.x, Microsoft SQLServer 2008/2012.</li>
+</ul>
+
+<h2>
+<a id="licensing" class="anchor" href="#licensing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Licensing</h2>
+
+<p><a href="http://opensource.org/licenses/MIT">MIT license</a></p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<ol>
+<li>install all required software</li>
+<li>build the plugin as a jar file (using <code>mvn install</code>)</li>
+<li>copy the in the downloads directory of sonarqube server (sonarqube-5.x.x/extensions/downloads)</li>
+<li>start sonarqube server (sonarqube-5.x.x/bin/<code>your system software</code>)</li>
+<li>login as admin and activate all bpel rules in the rules tab</li>
+<li>analyze a BPEL project (with e.g. sonar-runner) and open portability dashboard (on sonarqube server) for this project</li>
+</ol>
+
+<p>Please note:</p>
+
+<ul>
+<li>SonarQube server has to be running before starting an analysis</li>
+<li>Projects that should be analyzed by SonarQube require a properties file in project root folder.
+properties file should at least look like this:</li>
+</ul>
+
+<pre><code># Required metadata
+sonar.projectKey=test-bpel
+sonar.projectName=test-bpel
+sonar.projectVersion=1.0
+# Comma-seperated paths to directories with sources (required)
+sonar.sources=src
+
+# Language
+sonar.language=bpel
+
+# Ecoding of the source files
+sonar.sourceEncoding=UTF-8
+</code></pre>
+
+<h2>
+<a id="project-structure" class="anchor" href="#project-structure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Structure</h2>
+
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/main/java/de/uniba/dsg/sonar/portability</code></td>
+<td>plugin start class and all defined metrics</td>
+</tr>
+<tr>
+<td><code>src/main/java/de/uniba/dsg/sonar/portability/batch</code></td>
+<td>classes that implement the main workflow, such as traversing a directory structure and triggering the metrics computation and reporting</td>
+</tr>
+<tr>
+<td><code>src/main/java/de/uniba/dsg/sonar/portability/checks</code></td>
+<td>check for existing BPEL repository in SonarQube</td>
+</tr>
+<tr>
+<td><code>src/main/java/de/uniba/dsg/sonar/portability/language</code></td>
+<td>class(es) that defines the languages that can analyzed with the plugin</td>
+</tr>
+<tr>
+<td><code>src/main/java/de/uniba/dsg/sonar/portability/rules</code></td>
+<td>classes to define profiles and rules</td>
+</tr>
+<tr>
+<td><code>src/main/java/de/uniba/dsg/sonar/portability/ui</code></td>
+<td>class to create the dashboard with the calculated metrics</td>
+</tr>
+<tr>
+<td><code>src/main/de/uniba/dsg/sonar/portability/utility</code></td>
+<td>class for helping to calculate metrics</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="authors" class="anchor" href="#authors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors</h2>
+
+<p>Matthias Weiß, <a href="https://joerglenhard.wordpress.com/">Jörg Lenhard</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/uniba-dsg/sonar-prope-plugin">Sonar-prope-plugin</a> is maintained by <a href="https://github.com/uniba-dsg">uniba-dsg</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
